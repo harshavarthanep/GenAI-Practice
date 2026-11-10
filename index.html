@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prep Prep — GenAI interview practice</title>
+<meta name="description" content="Practise GenAI interview MCQs, written answers and coding with instant feedback.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;800&family=Atkinson+Hyperlegible+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F9FC; --surface:#FFFFFF; --ink:#14213D; --muted:#56607A; --rule:#D6DEEA;
+  --mark:#FFE45C; --mark-ink:#14213D; --accent:#2346D6; --accent-ink:#FFFFFF;
+  --good:#157A4A; --good-bg:#E3F4EA; --bad:#B3261E; --bad-bg:#FBE7E5; --code-bg:#EEF2F9;
+  --sans:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"Atkinson Hyperlegible Mono",ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  color-scheme: light dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#0F1626; --surface:#17213A; --ink:#E6ECF7; --muted:#9AA6BD; --rule:#2A3654;
+    --mark:#5C5220; --mark-ink:#FFF4B8; --accent:#8FA6FF; --accent-ink:#0F1626;
+    --good:#5FD39A; --good-bg:#14352A; --bad:#FF8A80; --bad-bg:#3A1C1F; --code-bg:#1C2846;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:17px;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+mark{background:var(--mark);color:var(--mark-ink);padding:0 .2em;border-radius:2px}
+
+header.top{border-bottom:3px solid var(--ink);background:var(--paper)}
+.bar{max-width:980px;margin:0 auto;padding:18px 20px 0;display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 24px;justify-content:space-between}
+.brand h1{margin:0;font-size:2rem;font-weight:800;letter-spacing:-.02em;line-height:1}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
+.stats{display:flex;gap:18px;font-size:.85rem;color:var(--muted);padding-bottom:4px}
+.stats b{display:block;color:var(--ink);font-size:1.25rem;font-variant-numeric:tabular-nums}
+nav.tabs{max-width:980px;margin:14px auto 0;padding:0 20px;display:flex;gap:4px;overflow-x:auto}
+nav.tabs button{border:none;background:none;padding:10px 14px;font-weight:600;color:var(--muted);border-bottom:4px solid transparent;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--mark)}
+@media (prefers-color-scheme: dark){nav.tabs button[aria-selected="true"]{border-bottom-color:#FFE45C}}
+
+main{max-width:980px;margin:0 auto;padding:24px 20px 80px}
+section[hidden]{display:none}
+h2{font-size:1.5rem;margin:0 0 6px;font-weight:800}
+.lead{color:var(--muted);margin:0 0 18px;max-width:70ch}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0}
+select,input[type=text],input[type=password]{background:var(--surface);border:2px solid var(--rule);border-radius:8px;padding:8px 10px;max-width:100%}
+.btn{border:2px solid var(--ink);background:var(--surface);color:var(--ink);padding:8px 14px;border-radius:8px;font-weight:600;cursor:pointer}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.quiet{border-color:var(--rule)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+.card{background:var(--surface);border:2px solid var(--rule);border-radius:12px;padding:18px 20px;margin:14px 0}
+.qmeta{font-size:.85rem;color:var(--muted);margin-bottom:6px}
+.qtext{font-size:1.15rem;font-weight:600;margin:0 0 14px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;border:2px solid var(--rule);background:var(--paper);border-radius:10px;padding:10px 14px;cursor:pointer;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt.right{border-color:var(--good);background:var(--good-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt:disabled{cursor:default}
+.explain{margin-top:14px;padding:10px 14px;border-left:4px solid var(--accent);background:var(--code-bg);border-radius:0 8px 8px 0}
+.verdict-good{color:var(--good);font-weight:800}
+.verdict-bad{color:var(--bad);font-weight:800}
+.progress{height:8px;background:var(--rule);border-radius:4px;overflow:hidden;margin:8px 0 2px}
+.progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+@media (prefers-reduced-motion: reduce){.progress i{transition:none}}
+
+.list{display:grid;gap:8px;margin-top:10px}
+.item{display:flex;justify-content:space-between;gap:10px;align-items:center;border:2px solid var(--rule);background:var(--surface);border-radius:10px;padding:10px 14px;cursor:pointer;text-align:left;width:100%}
+.item:hover{border-color:var(--ink)}
+.item small{color:var(--muted)}
+.tag{font-size:.75rem;border:1px solid var(--rule);border-radius:999px;padding:1px 8px;color:var(--muted);white-space:nowrap}
+.tag.done{border-color:var(--good);color:var(--good)}
+
+textarea{width:100%;min-height:180px;background:var(--paper);border:2px solid var(--rule);border-radius:10px;padding:12px;resize:vertical;line-height:1.5}
+textarea.code{font-family:var(--mono);font-size:.85rem;min-height:240px;tab-size:4}
+pre{background:var(--code-bg);border-left:4px solid var(--accent);padding:12px 14px;overflow-x:auto;font-family:var(--mono);font-size:.8rem;line-height:1.5;border-radius:0 8px 8px 0;margin:10px 0}
+.points{list-style:none;padding:0;margin:10px 0;display:grid;gap:6px}
+.points li{display:flex;gap:8px;align-items:flex-start}
+.points .ok::before{content:"✓";color:var(--good);font-weight:800}
+.points .miss::before{content:"✗";color:var(--bad);font-weight:800}
+.score{font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums}
+.model{white-space:pre-wrap}
+.ai{white-space:pre-wrap;border:2px dashed var(--accent);border-radius:10px;padding:12px 14px;margin-top:12px}
+.note{font-size:.88rem;color:var(--muted)}
+
+.week{margin:18px 0}
+.week h3{margin:0 0 6px;font-size:1.05rem}
+.day{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px dotted var(--rule)}
+.day input{margin-top:5px;width:18px;height:18px;accent-color:var(--accent)}
+.day label{cursor:pointer}
+.day b{font-variant-numeric:tabular-nums;margin-right:6px}
+.day.done label{color:var(--muted);text-decoration:line-through}
+
+.empty{padding:28px;text-align:center;border:2px dashed var(--rule);border-radius:12px;color:var(--muted)}
+@media (max-width:640px){html{font-size:16px}.brand h1{font-size:1.6rem}.stats{gap:12px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand">
+      <h1>Prep Prep</h1>
+      <p>GenAI interview practice · <a href="cheatsheet.html">open the cheat sheet</a></p>
+    </div>
+    <div class="stats" aria-live="polite">
+      <div><b id="sPlan">0/30</b>plan days</div>
+      <div><b id="sMcq">0%</b>MCQ accuracy</div>
+      <div><b id="sMist">0</b>to fix</div>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="plan" aria-selected="true">Plan</button>
+    <button role="tab" data-tab="mcq" aria-selected="false">MCQ</button>
+    <button role="tab" data-tab="written" aria-selected="false">Written answers</button>
+    <button role="tab" data-tab="coding" aria-selected="false">Coding</button>
+    <button role="tab" data-tab="mistakes" aria-selected="false">Mistakes</button>
+    <button role="tab" data-tab="settings" aria-selected="false">AI review</button>
+  </nav>
+</header>
+
+<main>
+  <!-- PLAN -->
+  <section id="tab-plan" role="tabpanel">
+    <h2>30-day plan</h2>
+    <p class="lead">Each day: read the module in the cheat sheet, practise it here, then build. Tick the day when you’re done — progress is saved in this browser.</p>
+    <div class="progress"><i id="planBar"></i></div>
+    <div id="planList"></div>
+  </section>
+
+  <!-- MCQ -->
+  <section id="tab-mcq" role="tabpanel" hidden>
+    <h2>Multiple choice</h2>
+    <p class="lead">Options are shuffled each time. Wrong answers go to the Mistakes tab until you get them right.</p>
+    <div class="row">
+      <label for="mcqModule">Module</label>
+      <select id="mcqModule"></select>
+      <select id="mcqCount" aria-label="Number of questions">
+        <option value="10">10 questions</option>
+        <option value="20">20 questions</option>
+        <option value="all">All in module</option>
+      </select>
+      <button class="btn primary" id="mcqStart">Start quiz</button>
+    </div>
+    <div id="mcqArea"></div>
+  </section>
+
+  <!-- WRITTEN -->
+  <section id="tab-written" role="tabpanel" hidden>
+    <h2>Written answers</h2>
+    <p class="lead">Write as if speaking to an interviewer: define it, explain how it works, give an example, mention a trade-off. The checker shows which key points you covered and which you missed.</p>
+    <div class="row">
+      <label for="wModule">Module</label>
+      <select id="wModule"></select>
+    </div>
+    <div id="wList" class="list"></div>
+    <div id="wArea"></div>
+  </section>
+
+  <!-- CODING -->
+  <section id="tab-coding" role="tabpanel" hidden>
+    <h2>Coding</h2>
+    <p class="lead">Try it in VS Code or Colab first, paste your code here, then compare with the solution or ask the AI reviewer to find your mistakes.</p>
+    <div id="cList" class="list"></div>
+    <div id="cArea"></div>
+  </section>
+
+  <!-- MISTAKES -->
+  <section id="tab-mistakes" role="tabpanel" hidden>
+    <h2>Mistakes to fix</h2>
+    <p class="lead">Every MCQ you got wrong. Answer it correctly once and it leaves this list.</p>
+    <div class="row"><button class="btn primary" id="mistStart">Retry all mistakes</button></div>
+    <div id="mistArea"></div>
+    <div id="mistList" class="list"></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="tab-settings" role="tabpanel" hidden>
+    <h2>AI review (optional)</h2>
+    <p class="lead">Everything works without this. Add your own Anthropic API key to get an interviewer-style review of written answers and code: score, mistakes, missing points and an improved answer.</p>
+    <div class="card">
+      <div class="row" style="flex-direction:column;align-items:stretch">
+        <label for="apiKey">Anthropic API key</label>
+        <input type="password" id="apiKey" placeholder="sk-ant-..." autocomplete="off">
+        <label for="apiModel">Model</label>
+        <input type="text" id="apiModel" value="claude-haiku-5-5">
+      </div>
+      <div class="row">
+        <button class="btn primary" id="keySave">Save key</button>
+        <button class="btn quiet" id="keyClear">Remove key</button>
+        <span id="keyStatus" class="note"></span>
+      </div>
+      <p class="note">Your API key is sensitive. It is stored only in this browser’s local storage and sent only to api.anthropic.com. Never commit it to GitHub, and don’t save it on a shared computer. Each review uses a small amount of API credit.</p>
+    </div>
+  </section>
+</main>
+
+<script src="questions.js"></script>
+<script>
+(() => {
+  // ---------- storage ----------
+  const KEY = "prepprep.v1";
+  const blank = { plan:{}, wrong:[], answered:0, correct:0, written:{}, code:{}, wScore:{}, apiKey:"", model:"claude-haiku-5-5" };
+  let S;
+  try { S = Object.assign({}, blank, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch { S = { ...blank }; }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} refreshStats(); };
+
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  MCQ.forEach((q, i) => q.id = "q" + i);
+
+  // ---------- tabs ----------
+  const tabs = document.querySelectorAll("nav.tabs button");
+  function show(name) {
+    tabs.forEach(b => b.setAttribute("aria-selected", b.dataset.tab === name));
+    document.querySelectorAll("main > section").forEach(s => s.hidden = s.id !== "tab-" + name);
+    if (name === "mistakes") renderMistakes();
+    if (location.hash.slice(1) !== name) history.replaceState(null, "", "#" + name);
+  }
+  tabs.forEach(b => b.addEventListener("click", () => show(b.dataset.tab)));
+  window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (document.getElementById("tab-" + h)) show(h); });
+
+  // ---------- stats ----------
+  function refreshStats() {
+    const done = Object.values(S.plan).filter(Boolean).length;
+    $("#sPlan").textContent = done + "/30";
+    $("#sMcq").textContent = S.answered ? Math.round(100 * S.correct / S.answered) + "%" : "–";
+    $("#sMist").textContent = S.wrong.length;
+    $("#planBar").style.width = (done / 30 * 100) + "%";
+  }
+
+  // ---------- module selects ----------
+  function fillModules(sel, items) {
+    const counts = {}; items.forEach(x => counts[x.m] = (counts[x.m] || 0) + 1);
+    sel.innerHTML = `<option value="all">All modules (${items.length})</option>` +
+      MODULES.map((n, i) => counts[i + 1] ? `<option value="${i + 1}">${i + 1}. ${esc(n)} (${counts[i + 1]})</option>` : "").join("");
+  }
+  fillModules($("#mcqModule"), MCQ);
+  fillModules($("#wModule"), WRITTEN);
+
+  // ---------- plan ----------
+  function renderPlan() {
+    let n = 0;
+    $("#planList").innerHTML = PLAN.map(w => `<div class="week"><h3>${esc(w.week)}</h3>` +
+      w.days.map(d => { n++; const id = "d" + n; const ok = !!S.plan[id];
+        return `<div class="day ${ok ? "done" : ""}"><input type="checkbox" id="${id}" ${ok ? "checked" : ""}><label for="${id}"><b>Day ${n}</b>${esc(d)}</label></div>`; }).join("") + `</div>`).join("");
+    $("#planList").querySelectorAll("input").forEach(cb => cb.addEventListener("change", () => {
+      S.plan[cb.id] = cb.checked; cb.parentElement.classList.toggle("done", cb.checked); save();
+    }));
+  }
+
+  // ---------- MCQ engine (shared by quiz + mistakes) ----------
+  function runQuiz(area, questions, onDone) {
+    let i = 0, right = 0;
+    const step = () => {
+      if (i >= questions.length) {
+        const pct = Math.round(100 * right / questions.length);
+        area.innerHTML = `<div class="card"><div class="score">${right} / ${questions.length}</div>
+          <p>${pct >= 80 ? "Strong. Move to written answers for these modules." : pct >= 60 ? "Close. Re-read the highlighted lines in the cheat sheet, then retry." : "Re-read the module in the cheat sheet before retrying — understanding beats memorising."}</p>
+          <p class="note">${S.wrong.length} question(s) waiting in Mistakes.</p></div>`;
+        if (onDone) onDone();
+        return;
+      }
+      const q = questions[i];
+      const order = shuffle(q.o.map((t, k) => ({ t, k })));
+      area.innerHTML = `<div class="card">
+        <div class="qmeta">Question ${i + 1} of ${questions.length} · Module ${q.m}: ${esc(MODULES[q.m - 1])}</div>
+        <div class="progress"><i style="width:${i / questions.length * 100}%"></i></div>
+        <p class="qtext">${esc(q.q)}</p>
+        <div class="opts">${order.map(o => `<button class="opt" data-k="${o.k}">${esc(o.t)}</button>`).join("")}</div>
+        <div id="fb"></div></div>`;
+      area.querySelectorAll(".opt").forEach(btn => btn.addEventListener("click", () => {
+        const k = +btn.dataset.k, ok = k === q.a;
+        area.querySelectorAll(".opt").forEach(b => { b.disabled = true; if (+b.dataset.k === q.a) b.classList.add("right"); });
+        if (!ok) btn.classList.add("wrong");
+        S.answered++; if (ok) { S.correct++; right++; S.wrong = S.wrong.filter(id => id !== q.id); }
+        else if (!S.wrong.includes(q.id)) S.wrong.push(q.id);
+        save();
+        area.querySelector("#fb").innerHTML = `<div class="explain"><span class="${ok ? "verdict-good" : "verdict-bad"}">${ok ? "Correct." : "Not quite."}</span> ${esc(q.e)}</div>
+          <div class="row"><button class="btn primary" id="next">${i + 1 < questions.length ? "Next question" : "See score"}</button></div>`;
+        const nx = area.querySelector("#next"); nx.focus();
+        nx.addEventListener("click", () => { i++; step(); });
+      }));
+    };
+    step();
+  }
+  $("#mcqStart").addEventListener("click", () => {
+    const m = $("#mcqModule").value, c = $("#mcqCount").value;
+    let pool = MCQ.filter(q => m === "all" || q.m === +m);
+    pool = shuffle(pool);
+    if (c !== "all") pool = pool.slice(0, +c);
+    runQuiz($("#mcqArea"), pool);
+  });
+
+  // ---------- mistakes ----------
+  function renderMistakes() {
+    const qs = MCQ.filter(q => S.wrong.includes(q.id));
+    $("#mistStart").disabled = !qs.length;
+    $("#mistList").innerHTML = qs.length ? qs.map(q => `<div class="item"><span>${esc(q.q)}</span><span class="tag">Module ${q.m}</span></div>`).join("")
+      : `<div class="empty">Nothing to fix right now. Take a quiz in the MCQ tab.</div>`;
+  }
+  $("#mistStart").addEventListener("click", () => {
+    const qs = shuffle(MCQ.filter(q => S.wrong.includes(q.id)));
+    $("#mistList").innerHTML = "";
+    runQuiz($("#mistArea"), qs, () => setTimeout(renderMistakes, 0));
+  });
+
+  // ---------- answer checker ----------
+  function checkWritten(q, text) {
+    const t = " " + text.toLowerCase().replace(/\s+/g, " ") + " ";
+    const res = q.points.map(p => ({ t: p.t, hit: p.k.some(k => t.includes(k.toLowerCase())) }));
+    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    const tips = [];
+    if (words < 60) tips.push("Too short for an interview answer — aim for 80–150 words (about 45–60 seconds spoken).");
+    if (words > 220) tips.push("Long — interviewers lose focus after ~2 minutes. Lead with a one-line definition.");
+    if (!/(for example|e\.g\.|for instance|such as|example)/.test(t)) tips.push("Add a concrete example — it proves understanding.");
+    if (!/(trade-?off|however|but |downside|limitation|drawback|cost|risk)/.test(t)) tips.push("Mention a trade-off or limitation — it signals senior thinking.");
+    if (!/(i would|i'd|i use|i built|in practice|in production)/.test(t)) tips.push("Say how YOU would apply it (“In practice I…”).");
+    return { res, words, tips, score: Math.round(100 * res.filter(r => r.hit).length / res.length) };
+  }
+
+  // ---------- AI review ----------
+  async function aiReview(kind, q, answer, out) {
+    if (!S.apiKey) { out.innerHTML = `<div class="ai">Add your API key in the AI review tab to use this.</div>`; return; }
+    if (!answer.trim()) { out.innerHTML = `<div class="ai">Write your answer first.</div>`; return; }
+    out.innerHTML = `<div class="ai">Reviewing…</div>`;
+    const ref = kind === "written" ? q.model : q.solution;
+    const prompt = `You are a strict but encouraging interviewer for GenAI engineer roles. The candidate is a beginner preparing for interviews.
+<question>${kind === "written" ? q.q : q.title + "\n" + q.task}</question>
+<reference>${ref}</reference>
+<candidate_answer>${answer}</candidate_answer>
+Review the candidate's ${kind === "written" ? "answer" : "code"} in plain text (no markdown headers), using exactly these parts:
+Score: X/10
+What is correct: (1-3 short lines)
+Mistakes: (each factual or code error, quoting the wrong part and giving the fix; write "None" if none)
+Missing points: (what a strong answer would add)
+Improved version: (${kind === "written" ? "a rewritten answer under 130 words in the candidate's voice" : "the corrected code"})
+Keep it under 350 words.`;
+    try {
+      const r = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "content-type":"application/json", "x-api-key":S.apiKey, "anthropic-version":"2023-06-01", "anthropic-dangerous-direct-browser-access":"true" },
+        body: JSON.stringify({ model: S.model || "claude-haiku-5-5", max_tokens: 1200, messages: [{ role:"user", content: prompt }] })
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data?.error?.message || ("HTTP " + r.status));
+      const text = (data.content || []).filter(b => b.type === "text").map(b => b.text).join("\n");
+      out.innerHTML = `<div class="ai">${esc(text)}</div>`;
+    } catch (e) {
+      out.innerHTML = `<div class="ai">Review failed: ${esc(e.message)}. Check the key and model name in the AI review tab.</div>`;
+    }
+  }
+
+  // ---------- written ----------
+  function renderWList() {
+    const m = $("#wModule").value;
+    const items = WRITTEN.filter(w => m === "all" || w.m === +m);
+    $("#wArea").innerHTML = "";
+    $("#wList").innerHTML = items.map(w => { const sc = S.wScore[w.id];
+      return `<button class="item" data-id="${w.id}"><span>${esc(w.q)}<br><small>Module ${w.m}: ${esc(MODULES[w.m - 1])}</small></span><span class="tag ${sc >= 80 ? "done" : ""}">${sc != null ? "best " + sc + "%" : "not tried"}</span></button>`; }).join("");
+    $("#wList").querySelectorAll(".item").forEach(b => b.addEventListener("click", () => openWritten(WRITTEN.find(w => w.id === b.dataset.id))));
+  }
+  function openWritten(q) {
+    $("#wList").innerHTML = "";
+    const a = $("#wArea");
+    a.innerHTML = `<div class="row"><button class="btn quiet" id="wBack">Back to list</button></div>
+      <div class="card"><div class="qmeta">Module ${q.m}: ${esc(MODULES[q.m - 1])}</div><p class="qtext">${esc(q.q)}</p>
+      <label for="wText" class="note">Your answer</label>
+      <textarea id="wText" placeholder="Definition → how it works → example → trade-off → how you'd use it"></textarea>
+      <div class="row"><button class="btn primary" id="wCheck">Check my answer</button><button class="btn" id="wAi">Review with AI</button><button class="btn quiet" id="wModel">Show model answer</button></div>
+      <div id="wOut"></div><div id="wAiOut"></div><div id="wModelOut"></div></div>`;
+    const ta = a.querySelector("#wText"); ta.value = S.written[q.id] || "";
+    ta.addEventListener("input", () => { S.written[q.id] = ta.value; save(); });
+    a.querySelector("#wBack").addEventListener("click", renderWList);
+    a.querySelector("#wCheck").addEventListener("click", () => {
+      const r = checkWritten(q, ta.value);
+      S.wScore[q.id] = Math.max(S.wScore[q.id] || 0, r.score); save();
+      a.querySelector("#wOut").innerHTML = `<div class="explain"><div class="score">${r.score}%</div>
+        <p class="note">${r.words} words · key points covered</p>
+        <ul class="points">${r.res.map(p => `<li class="${p.hit ? "ok" : "miss"}">${p.hit ? `<mark>${esc(p.t)}</mark>` : esc(p.t)}</li>`).join("")}</ul>
+        ${r.tips.length ? `<p><b>Make it stronger</b></p><ul>${r.tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul>` : `<p class="verdict-good">Well structured.</p>`}
+        <p class="note">The checker looks for key ideas, not exact wording. Use “Review with AI” to catch factual mistakes.</p></div>`;
+    });
+    a.querySelector("#wAi").addEventListener("click", () => aiReview("written", q, ta.value, a.querySelector("#wAiOut")));
+    a.querySelector("#wModel").addEventListener("click", () => {
+      a.querySelector("#wModelOut").innerHTML = `<div class="explain"><b>Model answer</b><p class="model">${esc(q.model)}</p></div>`;
+    });
+    ta.focus();
+  }
+  $("#wModule").addEventListener("change", renderWList);
+
+  // ---------- coding ----------
+  function renderCList() {
+    $("#cArea").innerHTML = "";
+    $("#cList").innerHTML = CODING.map((c, i) => `<button class="item" data-id="${c.id}"><span><b>${i + 1}.</b> ${esc(c.title)}<br><small>Module ${c.m}: ${esc(MODULES[c.m - 1])}</small></span><span class="tag ${S.code[c.id] ? "done" : ""}">${S.code[c.id] ? "attempted" : "not tried"}</span></button>`).join("");
+    $("#cList").querySelectorAll(".item").forEach(b => b.addEventListener("click", () => openCoding(CODING.find(c => c.id === b.dataset.id))));
+  }
+  function openCoding(c) {
+    $("#cList").innerHTML = "";
+    const a = $("#cArea"); let hintN = 0;
+    a.innerHTML = `<div class="row"><button class="btn quiet" id="cBack">Back to list</button></div>
+      <div class="card"><div class="qmeta">Module ${c.m}: ${esc(MODULES[c.m - 1])}</div><p class="qtext">${esc(c.title)}</p><p>${esc(c.task)}</p>
+      <label for="cText" class="note">Your code</label>
+      <textarea id="cText" class="code" spellcheck="false" placeholder="# write or paste your Python here"></textarea>
+      <div class="row"><button class="btn quiet" id="cHint">Show a hint</button><button class="btn" id="cAi">Review my code with AI</button><button class="btn quiet" id="cSol">Show solution</button><button class="btn quiet" id="cCopy">Copy solution</button></div>
+      <div id="cHints"></div>
+      <p><b>Self-check before you compare</b></p><ul class="points">${c.check.map(x => `<li class="miss">${esc(x)}</li>`).join("")}</ul>
+      <div id="cAiOut"></div><div id="cSolOut"></div></div>`;
+    const ta = a.querySelector("#cText"); ta.value = S.code[c.id] || "";
+    ta.addEventListener("input", () => { S.code[c.id] = ta.value; save(); });
+    ta.addEventListener("keydown", e => { if (e.key === "Tab") { e.preventDefault(); const s = ta.selectionStart; ta.setRangeText("    ", s, ta.selectionEnd, "end"); } });
+    a.querySelectorAll(".points li").forEach(li => li.addEventListener("click", () => { li.classList.toggle("ok"); li.classList.toggle("miss"); }));
+    a.querySelector("#cBack").addEventListener("click", renderCList);
+    a.querySelector("#cHint").addEventListener("click", e => {
+      if (hintN < c.hints.length) a.querySelector("#cHints").insertAdjacentHTML("beforeend", `<div class="explain">Hint ${hintN + 1}: ${esc(c.hints[hintN])}</div>`);
+      hintN++; if (hintN >= c.hints.length) e.target.disabled = true;
+    });
+    a.querySelector("#cSol").addEventListener("click", () => { a.querySelector("#cSolOut").innerHTML = `<pre>${esc(c.solution)}</pre>`; });
+    a.querySelector("#cCopy").addEventListener("click", async e => {
+      try { await navigator.clipboard.writeText(c.solution); e.target.textContent = "Copied"; } catch { e.target.textContent = "Copy failed"; }
+      setTimeout(() => e.target.textContent = "Copy solution", 1500);
+    });
+    a.querySelector("#cAi").addEventListener("click", () => aiReview("code", c, ta.value, a.querySelector("#cAiOut")));
+  }
+
+  // ---------- settings ----------
+  $("#apiKey").value = S.apiKey ? "••••••••" + S.apiKey.slice(-4) : "";
+  $("#apiModel").value = S.model || "claude-haiku-5-5";
+  $("#keySave").addEventListener("click", () => {
+    const v = $("#apiKey").value.trim();
+    if (v && !v.startsWith("••")) S.apiKey = v;
+    S.model = $("#apiModel").value.trim() || "claude-haiku-5-5";
+    save(); $("#apiKey").value = S.apiKey ? "••••••••" + S.apiKey.slice(-4) : "";
+    $("#keyStatus").textContent = S.apiKey ? "Saved in this browser." : "No key saved.";
+  });
+  $("#keyClear").addEventListener("click", () => { S.apiKey = ""; save(); $("#apiKey").value = ""; $("#keyStatus").textContent = "Key removed."; });
+
+  // ---------- init ----------
+  renderPlan(); renderWList(); renderCList(); refreshStats();
+  const start = location.hash.slice(1);
+  show(document.getElementById("tab-" + start) ? start : "plan");
+})();
+</script>
+</body>
+</html>

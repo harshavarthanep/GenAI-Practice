@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenAI Interview Cheat Sheet — Harsha Varthan E P</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;800&family=Atkinson+Hyperlegible+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F9FC; --surface:#FFFFFF; --ink:#14213D; --muted:#56607A; --rule:#D6DEEA;
+  --mark:#FFE45C; --mark-ink:#14213D; --accent:#2346D6; --good:#157A4A; --bad:#B3261E;
+  --code-bg:#EEF2F9;
+  --sans:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"Atkinson Hyperlegible Mono",ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#0F1626; --surface:#17213A; --ink:#E6ECF7; --muted:#9AA6BD; --rule:#2A3654;
+    --mark:#5C5220; --mark-ink:#FFF4B8; --accent:#8FA6FF; --good:#5FD39A; --bad:#FF8A80;
+    --code-bg:#1C2846;
+  }
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding:40px 22px 80px}
+header.cover{padding:24px 0 28px;border-bottom:3px solid var(--ink);margin-bottom:28px}
+header.cover h1{font-size:2.6rem;line-height:1.05;margin:0 0 10px;font-weight:800;letter-spacing:-.02em}
+header.cover p{margin:4px 0;color:var(--muted);max-width:62ch}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{font:inherit;font-weight:600;border:2px solid var(--ink);background:var(--surface);color:var(--ink);padding:8px 14px;border-radius:8px;cursor:pointer;text-decoration:none}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+mark{background:var(--mark);color:var(--mark-ink);padding:0 .15em;border-radius:2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+nav.toc{columns:2;column-gap:28px;padding:16px 0 8px;margin-bottom:12px}
+nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:3px 0;break-inside:avoid}
+nav.toc a:hover{text-decoration:underline}
+nav.toc span{display:inline-block;width:2.2em;color:var(--muted);font-variant-numeric:tabular-nums}
+section.mod{padding-top:30px;margin-top:30px;border-top:1px solid var(--rule)}
+section.mod h2{font-size:1.6rem;line-height:1.15;margin:0 0 4px;font-weight:800}
+section.mod h2 .n{color:var(--accent);margin-right:.35em;font-variant-numeric:tabular-nums}
+.plain{font-size:1.08rem;margin:6px 0 14px;max-width:68ch}
+h3{font-size:1.05rem;margin:18px 0 6px}
+ul,ol{padding-left:1.3em;margin:6px 0}
+li{margin:3px 0}
+p{max-width:72ch}
+pre{background:var(--code-bg);border-left:4px solid var(--accent);padding:12px 14px;overflow-x:auto;font-family:var(--mono);font-size:.8rem;line-height:1.5;border-radius:0 6px 6px 0;margin:10px 0}
+code{font-family:var(--mono);font-size:.88em}
+p code,li code,td code{background:var(--code-bg);padding:.05em .3em;border-radius:3px}
+.say{border:2px solid var(--ink);border-radius:10px;padding:10px 14px;margin:14px 0;background:var(--surface)}
+.say b{display:block;margin-bottom:2px}
+.trap{border-left:4px solid var(--bad);padding:4px 12px;margin:12px 0}
+.trap b{color:var(--bad)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.88rem;margin:10px 0}
+th,td{border:1px solid var(--rule);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--code-bg)}
+.formula{font-family:var(--mono);font-size:.95rem;background:var(--surface);border:1px dashed var(--muted);padding:8px 12px;display:inline-block;border-radius:6px}
+.day{display:grid;grid-template-columns:4.2em 1fr;gap:6px;padding:4px 0;border-bottom:1px dotted var(--rule)}
+.day b{font-variant-numeric:tabular-nums}
+footer{margin-top:50px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--rule);padding-top:14px}
+@media (max-width:640px){html{font-size:16px} nav.toc{columns:1} header.cover h1{font-size:2rem}}
+@media print{
+  :root{--paper:#fff;--surface:#fff;--ink:#000;--muted:#444;--rule:#bbb;--mark:#FFE45C;--mark-ink:#000;--accent:#1F3FB8;--code-bg:#F1F4F9;--bad:#A11}
+  @page{size:A4;margin:12mm 12mm 14mm}
+  html{font-size:10pt}
+  .toolbar{display:none}
+  .wrap{max-width:none;padding:0}
+  section.mod{break-before:page;border-top:none;margin-top:0;padding-top:0}
+  section.mod h2{break-after:avoid}
+  pre,.say,.trap,table,.day{break-inside:avoid}
+  pre{font-size:7.6pt;white-space:pre-wrap}
+  a{color:inherit;text-decoration:none}
+  mark{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <h1>GenAI Interview Cheat Sheet</h1>
+  <p>Beginner-first notes for AI Engineer, GenAI Engineer, LLM Engineer and AI Product / Solutions roles. Read top to bottom: each module builds on the last.</p>
+  <p>How to use: read a module, practise it in <b>Prep Prep</b> (index.html), then say the “Say it in the interview” box out loud until it feels natural. Highlighted words are the ones interviewers listen for.</p>
+  <div class="toolbar">
+    <button class="btn" onclick="window.print()">Print / save as PDF</button>
+    <a class="btn" href="index.html">Open Prep Prep practice</a>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <a href="#m1"><span>1</span>Python for GenAI</a>
+  <a href="#m2"><span>2</span>ML &amp; deep learning basics</a>
+  <a href="#m3"><span>3</span>Tokens &amp; embeddings</a>
+  <a href="#m4"><span>4</span>Transformers &amp; attention</a>
+  <a href="#m5"><span>5</span>How LLMs are trained</a>
+  <a href="#m6"><span>6</span>Inference, decoding &amp; cost</a>
+  <a href="#m7"><span>7</span>Prompt engineering</a>
+  <a href="#m8"><span>8</span>Vector databases</a>
+  <a href="#m9"><span>9</span>RAG</a>
+  <a href="#m10"><span>10</span>Agents, tool calling &amp; MCP</a>
+  <a href="#m11"><span>11</span>Fine-tuning (LoRA, QLoRA)</a>
+  <a href="#m12"><span>12</span>Evaluation</a>
+  <a href="#m13"><span>13</span>LLMOps &amp; production</a>
+  <a href="#m14"><span>14</span>Safety &amp; responsible AI</a>
+  <a href="#m15"><span>15</span>Images, audio &amp; multimodal</a>
+  <a href="#m16"><span>16</span>System design &amp; storytelling</a>
+  <a href="#quick"><span>A</span>60 quick-fire definitions</a>
+  <a href="#plan"><span>B</span>30-day plan</a>
+  <a href="#projects"><span>C</span>Portfolio projects</a>
+</nav>
+
+<!-- ============ 1 ============ -->
+<section class="mod" id="m1">
+<h2><span class="n">1</span>Python for GenAI</h2>
+<p class="plain">Most GenAI work is Python “glue”: call a model API, clean text, store vectors, check the output, and serve the result through an API or UI.</p>
+<h3>What you must be comfortable with</h3>
+<ul>
+  <li>Lists, dicts, functions, classes, list comprehensions, <code>try/except</code>, reading files, <mark>JSON</mark> (<code>json.loads</code> / <code>json.dumps</code>).</li>
+  <li><code>venv</code> + <code>pip</code>, a <code>requirements.txt</code>, and keeping API keys in <mark>environment variables</mark> or a <code>.env</code> file that is in <code>.gitignore</code>.</li>
+  <li><code>requests</code>/<code>httpx</code> for HTTP, <code>asyncio</code> for many calls at once, <mark>Pydantic</mark> to validate data, <code>numpy</code> for vectors, <code>pandas</code> for tables.</li>
+  <li>Serving: <b>FastAPI</b> (APIs), <b>Streamlit</b> or <b>Gradio</b> (quick demo UIs). Notebooks: Google Colab (free GPU).</li>
+  <li>HTTP status codes: 200 ok, 400 bad request, 401 bad key, <mark>429 rate limit</mark>, 500/503 server problem.</li>
+</ul>
+<h3>Your first LLM call (two common SDK styles)</h3>
+<pre># pip install openai anthropic
+import os
+from openai import OpenAI
+client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])     # never hard-code keys
+r = client.chat.completions.create(
+    model=MODEL,                                          # e.g. a current model name from the docs
+    messages=[{"role": "system", "content": "You are concise."},
+              {"role": "user", "content": "Explain RAG in one line."}],
+    temperature=0.2)
+print(r.choices[0].message.content)
+
+import anthropic
+client = anthropic.Anthropic()                            # reads ANTHROPIC_API_KEY
+msg = client.messages.create(model=MODEL, max_tokens=300,
+        system="You are concise.",                        # system prompt is its own field here
+        messages=[{"role": "user", "content": "Explain RAG in one line."}])
+print(msg.content[0].text)</pre>
+<p>Every chat API has the same idea: a list of <mark>messages with roles</mark> (system, user, assistant), a model name, and settings such as temperature and max tokens. Learn one SDK well; the others will feel familiar.</p>
+<div class="say"><b>Say it in the interview</b>“In production I keep keys in a secret manager, set timeouts, retry 429 and 5xx errors with exponential backoff, validate the model’s output with Pydantic, and log tokens, latency and cost for every call.”</div>
+<div class="trap"><b>Trap:</b> committing a key to GitHub. Bots scan public repos within minutes. If it happens, revoke the key first, then clean history.</div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="mod" id="m2">
+<h2><span class="n">2</span>ML &amp; deep learning basics</h2>
+<p class="plain">Machine learning means learning patterns from examples instead of writing rules by hand. A model is a function with adjustable numbers (weights); training nudges those numbers until the model’s mistakes get small.</p>
+<p><b>AI ⊃ Machine learning ⊃ Deep learning ⊃ Generative AI.</b> Discriminative models decide (spam or not). <mark>Generative models create</mark> new text, images, audio or code.</p>
+<div class="tbl"><table>
+<tr><th>Learning type</th><th>Plain meaning</th><th>Example</th></tr>
+<tr><td>Supervised</td><td>Examples come with the right answer (label)</td><td>Email → spam / not spam</td></tr>
+<tr><td>Unsupervised</td><td>No labels; find structure</td><td>Group customers into segments</td></tr>
+<tr><td><mark>Self-supervised</mark></td><td>Labels come from the data itself</td><td>Hide the next word, predict it — how LLMs pre-train</td></tr>
+<tr><td>Reinforcement</td><td>Learn by trial and reward</td><td>Game playing; RLHF for chatbots</td></tr>
+</table></div>
+<h3>Training in five words: predict, measure, adjust, repeat</h3>
+<ul>
+  <li><b>Loss</b> = how wrong the model is. Classification uses <mark>cross-entropy</mark>; regression uses mean squared error.</li>
+  <li><b>Gradient descent</b> = walk downhill on the loss. <mark>Learning rate</mark> = size of each step (too big jumps around, too small is slow). <b>Backpropagation</b> computes which way is downhill for every weight.</li>
+  <li><b>Epoch</b> = one pass over the training data. <b>Batch</b> = how many examples per update.</li>
+  <li><b>Neural network</b> = layers of weighted sums followed by an activation (ReLU, GELU) that adds non-linearity. <mark>Softmax</mark> turns raw scores into probabilities that add up to 1.</li>
+</ul>
+<h3>Overfitting vs underfitting</h3>
+<p><mark>Overfitting</mark>: the student memorised last year’s paper and fails a new one — great on training data, poor on unseen data. Fix with more data, regularisation, dropout, early stopping, a simpler model. <b>Underfitting</b>: too simple to learn even the training data. Always split data into <b>train / validation / test</b>.</p>
+<h3>Metrics you must explain with an example</h3>
+<div class="tbl"><table>
+<tr><th>Metric</th><th>Question it answers</th></tr>
+<tr><td>Accuracy</td><td>What fraction did I get right? (misleading when classes are imbalanced)</td></tr>
+<tr><td><mark>Precision</mark></td><td>Of everything I flagged, how much was really positive? (cost of false alarms)</td></tr>
+<tr><td><mark>Recall</mark></td><td>Of all the real positives, how many did I catch? (cost of misses — e.g. disease screening)</td></tr>
+<tr><td>F1</td><td>Balance of precision and recall (harmonic mean)</td></tr>
+</table></div>
+<div class="say"><b>Say it in the interview</b>“LLMs are trained with self-supervised next-token prediction, so the same ideas apply: a loss (cross-entropy), gradient descent with backprop, and the risk of overfitting when we fine-tune on a small dataset.”</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="mod" id="m3">
+<h2><span class="n">3</span>Tokens &amp; embeddings</h2>
+<p class="plain">Models don’t read words; they read <mark>tokens</mark> (pieces of words) and turn each into a list of numbers called an <mark>embedding</mark>. Similar meanings end up as nearby lists of numbers.</p>
+<h3>Tokens</h3>
+<ul>
+  <li>Rule of thumb for English: <mark>1 token ≈ 4 characters ≈ ¾ of a word</mark>, so 1,000 tokens ≈ 750 words. Tamil, Hindi and code often use more tokens per word.</li>
+  <li>Why it matters: <b>price</b>, <b>speed</b> and the <b>context window</b> are all counted in tokens.</li>
+  <li>Tokenizers: <mark>BPE</mark> (byte-pair encoding — start from characters and keep merging the most frequent pair; GPT family), WordPiece (BERT), SentencePiece (Llama, T5). Example: “unhappiness” → “un”, “happi”, “ness”.</li>
+</ul>
+<h3>Embeddings</h3>
+<ul>
+  <li>An embedding is a vector such as <code>[0.12, -0.53, …]</code> with hundreds or thousands of numbers.</li>
+  <li>Classic example: vector(“king”) − vector(“man”) + vector(“woman”) ≈ vector(“queen”).</li>
+  <li><b>Static</b> embeddings (word2vec, GloVe) give one vector per word. <mark>Contextual</mark> embeddings (BERT, modern embedding models) change with the sentence: “river bank” vs “bank loan”.</li>
+  <li>Uses: semantic search, RAG retrieval, clustering, classification, duplicate detection, recommendations.</li>
+</ul>
+<h3>Cosine similarity — the one formula to memorise</h3>
+<p class="formula">cos(A, B) = (A · B) / (‖A‖ × ‖B‖)</p>
+<p>Ranges from −1 (opposite) through 0 (unrelated) to 1 (same direction). If vectors are normalised to length 1, cosine = dot product.</p>
+<pre>import numpy as np
+def cosine(a, b):
+    a, b = np.array(a), np.array(b)
+    return float(a @ b / (np.linalg.norm(a) * np.linalg.norm(b)))
+print(cosine([1, 0, 1], [1, 1, 1]))   # 0.816</pre>
+<div class="say"><b>Say it in the interview</b>“An embedding maps text to a vector where distance reflects meaning. I embed documents once, store them, embed each query with the same model, and retrieve the nearest vectors by cosine similarity.”</div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="mod" id="m4">
+<h2><span class="n">4</span>Transformers &amp; attention</h2>
+<p class="plain">The transformer (paper: “Attention Is All You Need”, 2017) is the architecture behind every modern LLM. Its key idea, <mark>self-attention</mark>, lets every word look at every other word and decide which ones matter for its meaning.</p>
+<h3>Self-attention like a classroom</h3>
+<p>In “The animal didn’t cross the street because <b>it</b> was tired”, the word “it” needs to look back at “animal”. Each token makes three vectors:</p>
+<ul>
+  <li><mark>Query (Q)</mark> — what I am looking for.</li>
+  <li><mark>Key (K)</mark> — what I contain (a label others can match).</li>
+  <li><mark>Value (V)</mark> — the information I hand over if chosen.</li>
+</ul>
+<p class="formula">Attention(Q, K, V) = softmax( Q·Kᵀ / √dₖ ) · V</p>
+<p>Q·Kᵀ scores how well each pair matches; dividing by <mark>√dₖ</mark> stops scores from growing too large (which would make softmax output almost all 0s and 1s and kill gradients); softmax turns scores into weights; the output is a weighted mix of values.</p>
+<h3>The rest of the block</h3>
+<ul>
+  <li><mark>Multi-head attention</mark>: several attention “views” in parallel — one may track grammar, another who-refers-to-whom.</li>
+  <li><mark>Positional encoding</mark>: attention by itself ignores order, so position is added (sinusoidal, learned, or <b>RoPE</b> rotary — used by most modern LLMs).</li>
+  <li>Each layer: attention → add &amp; layer-norm → feed-forward network → add &amp; layer-norm. The “add” is a <b>residual connection</b> that keeps training stable in deep stacks.</li>
+  <li><mark>Causal mask</mark>: in a generator, token 5 may not look at token 6 (the future).</li>
+</ul>
+<div class="tbl"><table>
+<tr><th>Family</th><th>Sees</th><th>Good at</th><th>Examples</th></tr>
+<tr><td>Encoder-only</td><td>Both directions</td><td>Understanding, classification, embeddings</td><td>BERT, RoBERTa</td></tr>
+<tr><td><mark>Decoder-only</mark></td><td>Only the past (causal)</td><td>Generating text — today’s chat LLMs</td><td>GPT, Claude, Llama, Gemini, Mistral</td></tr>
+<tr><td>Encoder-decoder</td><td>Encoder both; decoder past</td><td>Translation, summarisation</td><td>T5, BART</td></tr>
+</table></div>
+<h3>Why transformers beat RNNs/LSTMs</h3>
+<p>RNNs read one word at a time, so training is slow and long-distance links fade. Transformers process all tokens <mark>in parallel</mark> on GPUs and connect any two tokens directly. The cost: attention is <mark>O(n²)</mark> in sequence length, which is why long context is expensive (fixes: FlashAttention, sliding-window attention, KV-cache tricks).</p>
+<p><b>Mixture of Experts (MoE):</b> a router sends each token to only a few “expert” feed-forward networks, so a model can have huge total parameters but use a small fraction per token (e.g. Mixtral, DeepSeek-V3).</p>
+<div class="say"><b>Say it in the interview</b>“Self-attention computes, for every token, a weighted average of all tokens’ values, where weights come from query–key similarity scaled by √dₖ. Multi-head lets it learn several relationships at once, positional encoding gives order, and the causal mask makes decoder-only models generate left to right.”</div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="mod" id="m5">
+<h2><span class="n">5</span>How LLMs are trained</h2>
+<p class="plain">A chat model is built in stages: first it reads the internet to learn language (a super-autocomplete), then it is taught to follow instructions, then it is tuned to be helpful and safe.</p>
+<ol>
+  <li><mark>Pre-training</mark> — predict the next token over trillions of tokens. Result: a <b>base model</b> that continues text but doesn’t reliably follow instructions.</li>
+  <li><mark>Supervised fine-tuning (SFT)</mark> / instruction tuning — train on (prompt → ideal answer) pairs written or checked by people.</li>
+  <li><mark>Preference alignment</mark> — <b>RLHF</b>: people rank answers, a reward model learns their taste, then RL (PPO) pushes the model toward high-reward answers. <b>DPO</b> skips the separate reward model and learns directly from “chosen vs rejected” pairs. <b>RLAIF / Constitutional AI</b> uses AI feedback guided by written principles.</li>
+  <li><b>Reasoning training</b> — RL on checkable tasks (maths, code) teaches models to “think” step by step before answering; more thinking at answer time = <mark>test-time compute</mark>.</li>
+</ol>
+<h3>Key terms</h3>
+<ul>
+  <li><mark>Parameters</mark>: the learned weights (7B = 7 billion numbers).</li>
+  <li><mark>Context window</mark>: the maximum tokens (input + output) the model handles in one call.</li>
+  <li><b>Knowledge cutoff</b>: the model knows nothing after its training data ends — one reason for RAG and web search.</li>
+  <li><b>Scaling laws</b>: quality improves predictably with more parameters, data and compute. Chinchilla finding: roughly 20 training tokens per parameter is compute-optimal.</li>
+  <li><mark>Hallucination</mark>: fluent, confident, wrong output. Cause: the model predicts plausible text; it does not look facts up.</li>
+  <li><b>Open-weight</b> (Llama, Mistral, Qwen, Gemma, DeepSeek) — you can host and fine-tune them; more control and privacy, more ops work. <b>Closed API</b> (GPT, Claude, Gemini) — strongest quality and zero hosting, but per-token cost and data leaves your servers.</li>
+</ul>
+<div class="say"><b>Say it in the interview</b>“Pre-training gives knowledge and language through next-token prediction; SFT teaches the assistant format; RLHF or DPO aligns it with human preferences. Hallucination comes from the objective itself — it optimises for plausible text, not verified truth — so in applications I ground answers with retrieval and evaluate faithfulness.”</div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="mod" id="m6">
+<h2><span class="n">6</span>Inference, decoding &amp; cost</h2>
+<p class="plain">At each step the model outputs a probability for every possible next token. Decoding settings decide how we pick from that list — safely and predictably, or creatively.</p>
+<div class="tbl"><table>
+<tr><th>Setting</th><th>What it does</th><th>Use</th></tr>
+<tr><td>Greedy</td><td>Always pick the most likely token</td><td>Deterministic, can be repetitive</td></tr>
+<tr><td><mark>Temperature</mark></td><td>Divides the scores before softmax. Low → sharper, safer; high → flatter, more varied</td><td>0–0.3 extraction, code, facts; 0.7–1 brainstorming</td></tr>
+<tr><td><mark>Top-k</mark></td><td>Sample only from the k most likely tokens</td><td>Cuts off weird low-probability tokens</td></tr>
+<tr><td><mark>Top-p</mark> (nucleus)</td><td>Sample from the smallest set whose probabilities add up to p (e.g. 0.9)</td><td>Adapts to how confident the model is</td></tr>
+<tr><td>Max tokens / stop sequences</td><td>Hard limit on length / where to stop</td><td>Cost control, clean output</td></tr>
+<tr><td>Beam search</td><td>Keep several candidate sequences</td><td>Translation; rarely for chat</td></tr>
+</table></div>
+<h3>Speed and memory</h3>
+<ul>
+  <li><mark>KV cache</mark>: store each past token’s keys and values so the next token doesn’t recompute everything.</li>
+  <li>Latency = <mark>TTFT</mark> (time to first token) + output tokens ÷ tokens per second. <b>Streaming</b> makes it feel faster.</li>
+  <li><mark>Quantization</mark>: store weights in fewer bits (16-bit → 8 or 4-bit). Less memory, faster, small quality loss. Formats: GGUF (llama.cpp/Ollama), GPTQ, AWQ.</li>
+  <li>Memory rule: <mark>parameters × bytes</mark>. 7B × 2 bytes (FP16) ≈ 14 GB; at 4-bit ≈ 3.5–4 GB. Plus the KV cache, which grows with context length.</li>
+  <li>Serving engines: <b>vLLM</b> (PagedAttention, continuous batching), TGI, TensorRT-LLM; locally <b>Ollama</b> / llama.cpp.</li>
+  <li><b>Speculative decoding</b>: a small model drafts several tokens, the big model verifies them in one pass.</li>
+</ul>
+<h3>Cost</h3>
+<p class="formula">cost ≈ input tokens × input price + output tokens × output price</p>
+<p>Output tokens usually cost several times more than input. Cut cost with shorter prompts, a <mark>smaller model for easy requests</mark> (routing), caching (prompt caching, semantic cache), batch APIs for offline jobs, and a sensible <code>max_tokens</code>.</p>
+<div class="say"><b>Say it in the interview</b>“For extraction I use temperature near zero and a JSON schema; for creative tasks higher temperature with top-p. To cut latency I stream, route simple queries to a small model, cache, and keep prompts short.”</div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="mod" id="m7">
+<h2><span class="n">7</span>Prompt engineering</h2>
+<p class="plain">A prompt is a brief for a very capable new colleague who knows nothing about your situation. Be clear about the role, the task, the context, the rules and the exact output you want.</p>
+<h3>The six-part prompt</h3>
+<pre>ROLE:     You are a support assistant for a health-insurance company.
+TASK:     Answer the customer's question about their claim.
+CONTEXT:  &lt;policy&gt; ...retrieved policy text... &lt;/policy&gt;
+RULES:    Use only the policy text. If it doesn't contain the answer, say
+          "I don't know — please contact support." Never give medical advice.
+FORMAT:   Reply in JSON: {"answer": str, "policy_section": str}
+EXAMPLES: Q: Is dental covered? → {"answer": "...", "policy_section": "4.2"}</pre>
+<div class="tbl"><table>
+<tr><th>Technique</th><th>Plain meaning</th></tr>
+<tr><td>Zero-shot</td><td>Just ask, no examples</td></tr>
+<tr><td><mark>Few-shot</mark></td><td>Show 2–5 input → output examples so the model copies the pattern</td></tr>
+<tr><td><mark>Chain-of-thought</mark></td><td>Ask it to reason step by step before answering; helps maths and logic. Reasoning models do this internally.</td></tr>
+<tr><td>Self-consistency</td><td>Sample several reasoning paths and take the majority answer</td></tr>
+<tr><td>Prompt chaining</td><td>Split a big task into steps; output of one becomes input of the next</td></tr>
+<tr><td>ReAct</td><td>Reason, act with a tool, observe, repeat — the base of agents</td></tr>
+<tr><td>Delimiters / XML tags</td><td>Wrap data in tags like <code>&lt;doc&gt;</code> so the model can tell instructions from data</td></tr>
+<tr><td><mark>Structured output</mark></td><td>Ask for JSON matching a schema (or use the API’s JSON/structured-output mode) and validate it</td></tr>
+</table></div>
+<h3>Prompt injection</h3>
+<p>Untrusted text tells the model “ignore your instructions and …”. <b>Direct</b>: typed by the user. <mark>Indirect</mark>: hidden in a web page, email or PDF the model reads. Defences (layers, none perfect): keep instructions separate from data, delimit untrusted text, give tools the <mark>least privilege</mark>, validate outputs, require <b>human approval</b> for risky actions, and monitor.</p>
+<div class="say"><b>Say it in the interview</b>“I treat prompts like code: versioned, tested against an evaluation set, and changed one variable at a time. I start zero-shot, add few-shot examples for format, and use structured outputs with validation for anything a program will parse.”</div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="mod" id="m8">
+<h2><span class="n">8</span>Vector databases</h2>
+<p class="plain">A vector database stores embeddings with their text and metadata, and answers “which stored vectors are closest to this one?” very fast — even across millions of items.</p>
+<ul>
+  <li><b>Exact (flat) search</b> compares the query with every vector: perfect but slow at scale.</li>
+  <li><mark>ANN (approximate nearest neighbour)</mark> trades a little recall for big speed: <mark>HNSW</mark> (a layered graph you hop through — most popular), <b>IVF</b> (cluster first, search a few clusters), <b>PQ</b> (compress vectors to save memory).</li>
+  <li>Distance: cosine, dot product, Euclidean (L2). Normalised vectors → cosine = dot.</li>
+  <li><mark>Metadata filters</mark>: “only documents for client X from 2025” — essential for permissions.</li>
+  <li><b>Golden rule:</b> embed documents and queries with the <mark>same embedding model</mark>. Changing models means re-embedding everything.</li>
+</ul>
+<div class="tbl"><table>
+<tr><th>Option</th><th>When to pick it</th></tr>
+<tr><td>FAISS</td><td>Library (not a server); fast experiments, in-memory</td></tr>
+<tr><td>Chroma</td><td>Easiest local start for prototypes</td></tr>
+<tr><td><mark>pgvector</mark></td><td>You already use PostgreSQL — vectors next to your normal data and SQL filters</td></tr>
+<tr><td>Qdrant / Weaviate / Milvus</td><td>Open-source, production scale, hybrid search, filtering</td></tr>
+<tr><td>Pinecone</td><td>Fully managed, no ops</td></tr>
+<tr><td>Elasticsearch / OpenSearch</td><td>Strong keyword (BM25) plus vectors in one place</td></tr>
+</table></div>
+<p>Embedding models: OpenAI text-embedding-3, Cohere Embed, Voyage, and open models like BGE, E5, GTE, all-MiniLM (sentence-transformers). Compare on the <b>MTEB</b> leaderboard, then test on your own data.</p>
+<div class="say"><b>Say it in the interview</b>“I choose by scale, ops appetite and existing stack: pgvector if we’re already on Postgres and under a few million vectors; Qdrant or a managed service for larger scale; and I make sure it supports metadata filtering and hybrid search.”</div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section class="mod" id="m9">
+<h2><span class="n">9</span>RAG — retrieval-augmented generation</h2>
+<p class="plain">RAG is an open-book exam for the model: first find the relevant pages in your documents, then let the model answer using only those pages, with citations.</p>
+<p><b>Why:</b> private or fresh knowledge, fewer hallucinations, citations users can check, and updating knowledge = updating documents (no retraining).</p>
+<h3>Two pipelines</h3>
+<pre>INDEXING (offline):  load → clean/parse (PDF, OCR) → chunk → embed → store (+ metadata)
+QUERY (online):      question → (rewrite) → embed → retrieve top-k → (rerank)
+                     → prompt with context → LLM answer with citations → (check)</pre>
+<h3>Chunking</h3>
+<ul>
+  <li>Fixed size with <mark>overlap</mark> (e.g. 300–800 tokens, 10–20% overlap) — simple baseline.</li>
+  <li>Recursive (split by headings → paragraphs → sentences), structure-aware (Markdown/HTML headings, tables kept whole), semantic (split where meaning changes).</li>
+  <li><b>Parent–child</b>: retrieve small precise chunks, send their bigger parent section to the model.</li>
+  <li>Too small → loses context; too big → noisy and costly. <mark>Decide with an evaluation set</mark>, not by guess.</li>
+</ul>
+<h3>Better retrieval</h3>
+<ul>
+  <li><mark>Hybrid search</mark> = keyword <b>BM25</b> (exact words, IDs, names like “NPI 1234”) + vector search (meaning). Merge with <mark>Reciprocal Rank Fusion (RRF)</mark>.</li>
+  <li><mark>Reranking</mark>: a cross-encoder reads (question, chunk) together and scores relevance — more accurate than embeddings; run on the top 20–50.</li>
+  <li>Query rewriting / multi-query; <b>HyDE</b> (write a hypothetical answer, embed that); <b>contextual retrieval</b> (prepend a one-line summary of the document to each chunk).</li>
+  <li><b>GraphRAG</b>: build a knowledge graph of entities and relations for “connect-the-dots” questions. <b>Agentic RAG</b>: an agent decides when and where to search. <b>Corrective RAG</b>: grade retrieved chunks and fall back (e.g. web search) when they’re poor.</li>
+</ul>
+<h3>Why RAG fails, and how to debug (in this order)</h3>
+<ol>
+  <li><mark>Retrieval first</mark>: is the right chunk in the top-k? Measure recall@k on a golden set.</li>
+  <li>If not: parsing errors (tables, scanned PDFs), bad chunking, wrong embedding model, need hybrid search or reranking, missing metadata filters, stale index.</li>
+  <li>If yes but the answer is wrong: prompt doesn’t enforce grounding, context too long (<mark>lost in the middle</mark> — models use the start and end of long context best), conflicting documents.</li>
+  <li>Measure <mark>faithfulness</mark> (is every claim supported by the context?) and answer relevance.</li>
+</ol>
+<div class="tbl"><table>
+<tr><th></th><th>Prompting</th><th>RAG</th><th>Fine-tuning</th><th>Long context</th></tr>
+<tr><td>Adds knowledge</td><td>A little</td><td><b>Yes, fresh</b></td><td>Poorly, goes stale</td><td>Yes, per call</td></tr>
+<tr><td>Changes style/format</td><td>Some</td><td>No</td><td><b>Yes</b></td><td>Some</td></tr>
+<tr><td>Citations</td><td>No</td><td><b>Yes</b></td><td>No</td><td>Possible</td></tr>
+<tr><td>Cost to start</td><td>Lowest</td><td>Medium</td><td>Higher</td><td>High per call</td></tr>
+</table></div>
+<div class="say"><b>Say it in the interview</b>“When a RAG answer is wrong I separate retrieval from generation. I check whether the right chunk was retrieved; if not I fix parsing, chunking, add hybrid search and a reranker. If it was retrieved, I tighten the grounding prompt and measure faithfulness on a golden set.”</div>
+</section>
+
+<!-- ============ 10 ============ -->
+<section class="mod" id="m10">
+<h2><span class="n">10</span>Agents, tool calling &amp; MCP</h2>
+<p class="plain">An agent is an LLM in a loop: it decides the next step, uses a tool (search, database, calculator, email), looks at the result, and repeats until the goal is done.</p>
+<p class="formula">Agent = LLM + tools + loop + memory + guardrails</p>
+<h3>Tool (function) calling</h3>
+<p>You describe each tool with a name, description and <mark>JSON schema</mark>. The model replies with “call tool X with these arguments”. <mark>Your code runs the tool</mark>, sends the result back, and the model continues.</p>
+<pre>tools = [{"name": "get_weather",
+          "description": "Current weather for a city",
+          "input_schema": {"type": "object",
+                           "properties": {"city": {"type": "string"}},
+                           "required": ["city"]}}]
+resp = client.messages.create(model=MODEL, max_tokens=500, tools=tools,
+           messages=[{"role": "user", "content": "Weather in Chennai?"}])
+if resp.stop_reason == "tool_use":
+    call = next(b for b in resp.content if b.type == "tool_use")
+    result = get_weather(**call.input)            # YOUR code executes the tool
+    # next request: append the assistant turn (resp.content) and a user turn with
+    # {"type": "tool_result", "tool_use_id": call.id, "content": result}</pre>
+<h3>Patterns — start with the simplest</h3>
+<ul>
+  <li><b>Workflows</b> (fixed path you code): prompt chaining, <mark>routing</mark> (classify then send to the right handler), parallelisation, orchestrator–workers, evaluator–optimiser (one model drafts, another critiques).</li>
+  <li><b>Agents</b> (model chooses the path): use when steps can’t be predicted in advance. More flexible, less predictable, costlier.</li>
+  <li><mark>ReAct</mark>: Thought → Action → Observation, repeated.</li>
+  <li><b>Memory</b>: short-term = conversation in the context window; long-term = facts saved in a database / vector store and retrieved later; summarise old turns to save tokens.</li>
+  <li><b>Multi-agent</b>: a supervisor hands sub-tasks to specialist agents. Frameworks: LangGraph, CrewAI, AutoGen, OpenAI Agents SDK, Claude Agent SDK, LlamaIndex.</li>
+</ul>
+<h3>MCP — Model Context Protocol</h3>
+<p>An <mark>open standard</mark> (introduced by Anthropic in Nov 2024, now widely adopted) for connecting AI apps to tools and data. Think “USB-C for AI”: build an <b>MCP server</b> once (it exposes <b>tools</b>, <b>resources</b> and <b>prompts</b>), and any <b>MCP client</b> (Claude apps, IDEs, agent frameworks) can use it.</p>
+<pre># pip install "mcp[cli]"
+from mcp.server.fastmcp import FastMCP
+mcp = FastMCP("leave-policy")
+
+@mcp.tool()
+def leave_balance(employee_id: str) -> str:
+    """Return remaining casual leaves for an employee."""
+    return {"E001": "7 days"}.get(employee_id, "not found")
+
+if __name__ == "__main__":
+    mcp.run()</pre>
+<div class="trap"><b>Agent risks:</b> infinite loops (cap the steps), wrong arguments (validate), runaway cost (budgets), prompt injection through tool results, and irreversible actions (sending email, payments) → <mark>human-in-the-loop</mark> approval and least-privilege credentials.</div>
+<div class="say"><b>Say it in the interview</b>“I start with the simplest thing that works — a single call, then a fixed workflow — and only move to an autonomous agent when the steps can’t be predicted. Every agent gets a step limit, validated tool inputs, least-privilege access, tracing, and human approval for irreversible actions.”</div>
+</section>
+
+<!-- ============ 11 ============ -->
+<section class="mod" id="m11">
+<h2><span class="n">11</span>Fine-tuning (LoRA, QLoRA)</h2>
+<p class="plain">Fine-tuning continues training a model on your own examples so it behaves the way you want. It teaches <mark>behaviour, format and style</mark> well; it is a poor way to add facts that change.</p>
+<h3>The decision ladder</h3>
+<ol>
+  <li>Better prompt (cheapest, fastest to change).</li>
+  <li>RAG — if the problem is <b>missing knowledge</b>.</li>
+  <li>Fine-tune — if the problem is <b>behaviour</b>: consistent format, tone, domain jargon, a narrow task, or making a <mark>small, cheap model</mark> match a big one.</li>
+  <li>Often the answer is RAG + a fine-tuned model together.</li>
+</ol>
+<h3>LoRA in one picture</h3>
+<p>Freeze the original weight matrix W. Learn two thin matrices A and B so the update is <span class="formula">W′ = W + B·A</span> with a small <mark>rank r</mark> (e.g. 8–64). You train well under 1% of the parameters; adapters are a few MB and can be swapped per task.</p>
+<p><mark>QLoRA</mark> = LoRA on a base model loaded in 4-bit. Lets you fine-tune a 7–8B model on a single free/cheap GPU (Colab, Kaggle).</p>
+<h3>Doing it well</h3>
+<ul>
+  <li>Data &gt; everything: a few hundred to a few thousand <b>clean, consistent</b> examples in chat-format JSONL; de-duplicate; keep a held-out test set.</li>
+  <li>Hyper-parameters: learning rate, 1–3 epochs, batch size, rank r, alpha. Watch validation loss for <mark>overfitting</mark>.</li>
+  <li><mark>Catastrophic forgetting</mark>: narrow training can erase general skills — mix in general data, use LoRA, keep epochs low.</li>
+  <li>Tools: Hugging Face <code>transformers</code>, <code>peft</code>, <code>trl</code> (SFTTrainer, DPOTrainer), <b>Unsloth</b> (fast, free Colab notebooks), Axolotl; or a provider’s fine-tuning API.</li>
+  <li><b>Distillation</b>: a big “teacher” model generates training data for a small “student”.</li>
+</ul>
+<div class="say"><b>Say it in the interview</b>“I fine-tune for behaviour, not for facts. My order is prompt, then RAG, then fine-tune — and I’d use LoRA or QLoRA so it fits on one GPU, evaluating against the base model on a held-out set before shipping.”</div>
+</section>
+
+<!-- ============ 12 ============ -->
+<section class="mod" id="m12">
+<h2><span class="n">12</span>Evaluation</h2>
+<p class="plain">You can’t improve what you don’t measure. Because LLM output varies, “it looked fine when I tried it” is not evidence. Build a test set and score every change against it.</p>
+<h3>The evaluation stack</h3>
+<ol>
+  <li><mark>Golden dataset</mark>: 50–200 real or realistic inputs with expected answers or grading criteria, including hard and adversarial cases. Grow it from production failures.</li>
+  <li><b>Code checks</b>: valid JSON? required fields? length? forbidden words? exact match for short answers.</li>
+  <li><b>Reference metrics</b>: BLEU / ROUGE (word overlap — weak for open-ended answers), BERTScore / embedding similarity (meaning).</li>
+  <li><mark>LLM-as-a-judge</mark>: a model grades answers against a rubric (pointwise 1–5, or pairwise A vs B). Known biases: <b>position</b>, <b>verbosity</b> (prefers longer), <b>self-preference</b>. Mitigate: clear rubric, temperature 0, swap order, calibrate against human labels.</li>
+  <li><b>Human review</b> for high-stakes or subjective quality.</li>
+  <li><b>Online</b>: A/B tests, thumbs up/down, task success, escalation rate, cost and latency.</li>
+</ol>
+<div class="tbl"><table>
+<tr><th>RAG metric</th><th>Plain meaning</th></tr>
+<tr><td><mark>Recall@k</mark></td><td>Did the right chunk appear in the top k?</td></tr>
+<tr><td>Precision@k / MRR / nDCG</td><td>How much of top k is relevant / how high the first good one ranks / ranking quality</td></tr>
+<tr><td><mark>Faithfulness</mark> (groundedness)</td><td>Is every claim in the answer supported by retrieved context?</td></tr>
+<tr><td>Answer relevance</td><td>Does it actually answer the question?</td></tr>
+<tr><td>Context precision / recall</td><td>Was retrieved context focused / complete? (RAGAS names)</td></tr>
+</table></div>
+<p><b>Public benchmarks</b> (MMLU, GSM8K, HumanEval, SWE-bench, GPQA, Chatbot Arena) help you shortlist models — they don’t tell you how your app performs. <b>Perplexity</b> measures how “surprised” a language model is by text (lower = better); used for models, rarely for apps.</p>
+<p>Tools: RAGAS, DeepEval, promptfoo, OpenAI Evals, LangSmith, Langfuse, Arize Phoenix.</p>
+<div class="say"><b>Say it in the interview</b>“I build a golden set from real queries, score it with code checks plus an LLM judge calibrated on human labels, split RAG scores into retrieval and generation, and run it as a regression test whenever a prompt, model or index changes.”</div>
+</section>
+
+<!-- ============ 13 ============ -->
+<section class="mod" id="m13">
+<h2><span class="n">13</span>LLMOps &amp; production</h2>
+<p class="plain">A demo works once; a product works every time, at a known cost, and tells you when it breaks.</p>
+<pre>user → API (FastAPI) → input guardrails → orchestrator (prompt / RAG / agent)
+     → model gateway (routing, retries, fallback model) → output guardrails
+     → response (streamed)        ↳ logs + traces + cost + feedback → dashboards &amp; evals</pre>
+<div class="tbl"><table>
+<tr><th>Goal</th><th>Levers</th></tr>
+<tr><td>Lower latency</td><td><mark>Streaming</mark>, smaller model via routing, prompt caching, semantic cache, parallel calls, shorter prompts, fewer agent steps</td></tr>
+<tr><td>Lower cost</td><td><mark>Model routing</mark>, caching, batch APIs, token budgets, <code>max_tokens</code>, trimming history, self-hosting at high volume</td></tr>
+<tr><td>Reliability</td><td>Timeouts, <mark>retries with exponential backoff + jitter</mark>, fallback models/providers, idempotent requests, circuit breakers</td></tr>
+<tr><td>Quality over time</td><td>Versioned prompts and models, regression evals in CI, canary rollouts, user feedback loop</td></tr>
+<tr><td>Observability</td><td>Log prompt, output, tokens, latency, cost, model version; tracing tools: LangSmith, Langfuse, Arize Phoenix, Helicone, OpenTelemetry</td></tr>
+<tr><td>Security</td><td>Secrets in a vault, PII redaction, <mark>permission-aware retrieval</mark>, rate limiting per user, audit logs</td></tr>
+</table></div>
+<div class="say"><b>Say it in the interview</b>“I put a gateway in front of the models for routing, retries and fallbacks, stream responses, cache aggressively, and trace every call with tokens, latency and cost. Prompts and models are versioned and every change must pass the eval suite before a canary rollout.”</div>
+</section>
+
+<!-- ============ 14 ============ -->
+<section class="mod" id="m14">
+<h2><span class="n">14</span>Safety &amp; responsible AI</h2>
+<p class="plain">Responsible AI means the system is accurate enough for its job, protects people’s data, treats people fairly, and can’t easily be tricked into doing harm.</p>
+<ul>
+  <li><b>Hallucination</b> → ground in sources, cite, allow “I don’t know”, low temperature, a verification step, evaluate faithfulness.</li>
+  <li><b>Privacy</b> → minimise and redact <mark>PII/PHI</mark>; know <b>HIPAA</b> (US health data), <b>GDPR</b> (EU), India’s <mark>DPDP Act 2023</mark>; check provider data-retention terms.</li>
+  <li><b>Security</b> → <mark>OWASP Top 10 for LLM Applications</mark>: prompt injection, sensitive information disclosure, supply chain, data/model poisoning, improper output handling, excessive agency, system prompt leakage, vector/embedding weaknesses, misinformation, unbounded consumption.</li>
+  <li><b>Bias &amp; fairness</b> → test outputs across groups; avoid using models for high-stakes decisions about people without human review.</li>
+  <li><b>Guardrails</b> → input/output classifiers, moderation APIs, Llama Guard, NeMo Guardrails, schema validation, allow-lists for tools.</li>
+  <li><b>Red-teaming</b> → deliberately attack your own system (jailbreaks, injections, data extraction) before users do.</li>
+  <li><b>Governance</b> → EU AI Act (risk tiers), NIST AI Risk Management Framework, model cards, audit logs, human oversight.</li>
+</ul>
+<div class="say"><b>Say it in the interview</b>“For a healthcare assistant I’d redact PHI before it reaches the model, enforce permission-aware retrieval, ground every answer in cited policy text, block medical advice with an output guardrail, keep a human in the loop for decisions, and red-team it against the OWASP LLM Top 10.”</div>
+</section>
+
+<!-- ============ 15 ============ -->
+<section class="mod" id="m15">
+<h2><span class="n">15</span>Images, audio &amp; multimodal</h2>
+<p class="plain">Text is one kind of generative AI. The same ideas — learn the data’s patterns, then sample new data — power image, audio and video models.</p>
+<div class="tbl"><table>
+<tr><th>Model type</th><th>Plain idea</th><th>Examples</th></tr>
+<tr><td>GAN</td><td>A forger (generator) vs a detective (discriminator) improve by competing</td><td>StyleGAN</td></tr>
+<tr><td>VAE</td><td>Compress to a small “latent” code, then decode; sample new codes to create</td><td>Used inside Stable Diffusion</td></tr>
+<tr><td><mark>Diffusion</mark></td><td>Training: add noise to images step by step; learn to <mark>remove noise</mark>. Generation: start from pure noise and denoise, guided by the text prompt</td><td>Stable Diffusion, DALL·E, Imagen, Midjourney</td></tr>
+<tr><td><mark>CLIP</mark></td><td>Puts images and text in the same embedding space (contrastive learning) — powers text-to-image search and guidance</td><td>CLIP, SigLIP</td></tr>
+<tr><td>Vision-language models</td><td>Image encoder + LLM: read charts, screenshots, scanned forms</td><td>GPT-4o, Claude, Gemini, LLaVA, Qwen-VL</td></tr>
+<tr><td>Speech</td><td>Speech-to-text and text-to-speech</td><td>Whisper (ASR), many TTS models</td></tr>
+</table></div>
+<p><b>Stable Diffusion</b> works in a compressed <mark>latent space</mark> (cheaper than pixels) and uses <b>classifier-free guidance</b> to control how strongly the image follows the prompt.</p>
+<div class="say"><b>Say it in the interview</b>“Diffusion models learn to reverse a noising process. At generation time they start from random noise and denoise over many steps, conditioned on a text embedding — Stable Diffusion does this in a VAE latent space for efficiency.”</div>
+</section>
+
+<!-- ============ 16 ============ -->
+<section class="mod" id="m16">
+<h2><span class="n">16</span>System design &amp; storytelling</h2>
+<p class="plain">Design rounds test structured thinking, not a perfect diagram. Walk the same ten steps every time and talk about trade-offs out loud.</p>
+<h3>The 10-step answer frame</h3>
+<ol>
+  <li><mark>Clarify</mark>: users, use cases, scale (users/day, documents), latency target, data sensitivity, languages, <b>success metric</b>.</li>
+  <li><b>Data</b>: sources, formats (PDF, scans, tables), freshness, permissions.</li>
+  <li><b>High-level architecture</b> — draw boxes: ingestion → index → API → orchestrator → model → UI.</li>
+  <li><b>Retrieval</b>: chunking, embedding model, vector DB, hybrid + rerank, metadata filters.</li>
+  <li><b>Model choice</b>: API vs open-weight, size, routing between small and large.</li>
+  <li><b>Prompting / tools / agents</b>: only as much autonomy as needed.</li>
+  <li><mark>Evaluation</mark>: golden set offline, metrics online.</li>
+  <li><b>Safety</b>: PII, injection, guardrails, human review.</li>
+  <li><b>Cost &amp; latency</b>: estimate tokens per request × requests per day; caching; streaming.</li>
+  <li><b>Monitoring &amp; iteration</b>: tracing, feedback, drift; then name trade-offs and next steps.</li>
+</ol>
+<h3>Worked example: “Design a claims-support chatbot for a health insurer”</h3>
+<p>Clarify: members ask about coverage and claim status; 20k chats/day; answers in under 3 s to first token; PHI involved; English + Tamil. Ingest policy PDFs with layout-aware parsing, chunk by section, embed, store in pgvector with plan-type metadata. Claim status comes from a <b>tool</b> (API call with the member’s ID), not from RAG. Router: simple FAQs → small model; complex coverage questions → larger model with reranked context. Prompt enforces citations and “I don’t know”. Guardrails redact PHI in logs and block medical advice. Evaluate with 150 golden questions (recall@5, faithfulness, judge score) and online deflection rate + CSAT. Cache frequent FAQs. Escalate to a human agent on low confidence.</p>
+<h3>Measuring business success (AI product / PMO angle)</h3>
+<p>Tie quality to outcomes: <mark>task success or deflection rate</mark>, time saved per task, cost per resolved request, adoption and retention, CSAT, escalation rate, and safety incidents. Report them on one dashboard next to model metrics.</p>
+<h3>Telling your project story (STAR+)</h3>
+<pre>Situation  The problem and who had it (one line)
+Task       What you owned
+Action     What you built: architecture, stack, the hardest bug and how you fixed it
+Result     A number: accuracy 62% → 85%, response 9 s → 2 s, 4 hours saved per week
+Learning   What you'd change next time</pre>
+<div class="say"><b>Say it in the interview</b>“Before I design anything, let me clarify the users, scale, latency target, data sensitivity and how we’ll measure success.” — this first sentence alone sets you apart.</div>
+</section>
+
+<!-- ============ QUICK FIRE ============ -->
+<section class="mod" id="quick">
+<h2><span class="n">A</span>60 quick-fire definitions</h2>
+<p class="plain">One-line answers for rapid-fire rounds. Cover the right column and test yourself.</p>
+<div class="tbl"><table>
+<tr><th>Term</th><th>One line</th></tr>
+<tr><td>Generative AI</td><td>Models that create new content (text, images, audio, code) by learning patterns in data</td></tr>
+<tr><td>LLM</td><td>A large transformer trained to predict the next token on massive text</td></tr>
+<tr><td>Foundation model</td><td>A general model pre-trained on broad data, adapted to many tasks</td></tr>
+<tr><td>Token</td><td>A chunk of text the model reads/writes; ~4 English characters</td></tr>
+<tr><td>Tokenizer</td><td>Converts text to token IDs and back (BPE, WordPiece, SentencePiece)</td></tr>
+<tr><td>Embedding</td><td>A vector representing meaning; similar meaning → nearby vectors</td></tr>
+<tr><td>Cosine similarity</td><td>Angle-based similarity between vectors, −1 to 1</td></tr>
+<tr><td>Transformer</td><td>Architecture built on self-attention, processes tokens in parallel</td></tr>
+<tr><td>Self-attention</td><td>Each token weighs every other token to build context-aware meaning</td></tr>
+<tr><td>Q, K, V</td><td>Query = what I seek, Key = what I offer, Value = what I pass on</td></tr>
+<tr><td>Multi-head attention</td><td>Several attention heads learning different relationships in parallel</td></tr>
+<tr><td>Positional encoding / RoPE</td><td>Adds word-order information that attention lacks</td></tr>
+<tr><td>Causal mask</td><td>Stops a token from seeing future tokens during generation</td></tr>
+<tr><td>Decoder-only</td><td>Generates left to right; the design of GPT, Claude, Llama</td></tr>
+<tr><td>MoE</td><td>Router activates a few expert sub-networks per token</td></tr>
+<tr><td>Pre-training</td><td>Self-supervised next-token learning on huge text</td></tr>
+<tr><td>SFT</td><td>Fine-tuning on prompt → ideal answer pairs</td></tr>
+<tr><td>RLHF</td><td>Reward model from human rankings + RL to align outputs</td></tr>
+<tr><td>DPO</td><td>Aligns directly on chosen-vs-rejected pairs, no separate reward model</td></tr>
+<tr><td>Context window</td><td>Max tokens (input + output) per call</td></tr>
+<tr><td>Hallucination</td><td>Confident output not supported by facts or sources</td></tr>
+<tr><td>Temperature</td><td>Controls randomness; low = focused, high = varied</td></tr>
+<tr><td>Top-k / Top-p</td><td>Sample from k best tokens / from the smallest set reaching probability p</td></tr>
+<tr><td>KV cache</td><td>Stores past keys/values to speed up generation</td></tr>
+<tr><td>TTFT</td><td>Time to first token — key latency metric</td></tr>
+<tr><td>Quantization</td><td>Fewer bits per weight → less memory, faster, slight quality loss</td></tr>
+<tr><td>vLLM</td><td>High-throughput LLM serving engine (PagedAttention, continuous batching)</td></tr>
+<tr><td>Zero-shot / Few-shot</td><td>No examples / a few examples in the prompt</td></tr>
+<tr><td>Chain-of-thought</td><td>Step-by-step reasoning before the final answer</td></tr>
+<tr><td>Prompt injection</td><td>Untrusted text that hijacks the model’s instructions</td></tr>
+<tr><td>Jailbreak</td><td>A prompt designed to bypass a model’s safety rules</td></tr>
+<tr><td>Structured output</td><td>Model output constrained to a schema such as JSON</td></tr>
+<tr><td>Vector database</td><td>Stores embeddings and finds nearest neighbours fast</td></tr>
+<tr><td>ANN / HNSW</td><td>Approximate nearest-neighbour search / its popular graph index</td></tr>
+<tr><td>RAG</td><td>Retrieve relevant documents, then generate a grounded answer</td></tr>
+<tr><td>Chunking</td><td>Splitting documents into retrievable pieces</td></tr>
+<tr><td>BM25</td><td>Classic keyword ranking algorithm</td></tr>
+<tr><td>Hybrid search</td><td>Keyword + vector search merged (often via RRF)</td></tr>
+<tr><td>Reranker</td><td>Cross-encoder that re-scores retrieved chunks for relevance</td></tr>
+<tr><td>HyDE</td><td>Embed a hypothetical answer to improve retrieval</td></tr>
+<tr><td>GraphRAG</td><td>RAG over a knowledge graph of entities and relations</td></tr>
+<tr><td>Agent</td><td>LLM in a loop that plans, uses tools, observes and repeats</td></tr>
+<tr><td>Tool / function calling</td><td>Model outputs a structured call; your code executes it</td></tr>
+<tr><td>ReAct</td><td>Thought → Action → Observation loop</td></tr>
+<tr><td>MCP</td><td>Open protocol connecting AI apps to tools, resources and prompts</td></tr>
+<tr><td>Multi-agent</td><td>Several specialised agents coordinated by a supervisor</td></tr>
+<tr><td>Fine-tuning</td><td>Further training on your examples to change behaviour</td></tr>
+<tr><td>LoRA</td><td>Train small low-rank adapters, freeze the base model</td></tr>
+<tr><td>QLoRA</td><td>LoRA on a 4-bit quantized base model</td></tr>
+<tr><td>Distillation</td><td>Big teacher model trains a small student model</td></tr>
+<tr><td>Catastrophic forgetting</td><td>Losing general skills after narrow fine-tuning</td></tr>
+<tr><td>Golden dataset</td><td>Curated test cases used to score every change</td></tr>
+<tr><td>LLM-as-a-judge</td><td>Using a model with a rubric to grade outputs</td></tr>
+<tr><td>Faithfulness</td><td>Answer is fully supported by the provided context</td></tr>
+<tr><td>Recall@k</td><td>Share of relevant items found in the top k results</td></tr>
+<tr><td>Perplexity</td><td>How surprised a model is by text; lower is better</td></tr>
+<tr><td>Guardrails</td><td>Checks on inputs/outputs that block unsafe or invalid content</td></tr>
+<tr><td>Semantic cache</td><td>Reuse an answer when a new query is similar enough</td></tr>
+<tr><td>Model routing</td><td>Send each request to the cheapest model that can handle it</td></tr>
+<tr><td>Diffusion model</td><td>Generates by learning to remove noise step by step</td></tr>
+</table></div>
+</section>
+
+<!-- ============ PLAN ============ -->
+<section class="mod" id="plan">
+<h2><span class="n">B</span>30-day plan</h2>
+<p class="plain">About 2 hours on weekdays and 4–5 hours on weekends. Every day: learn (cheat sheet) → practise (Prep Prep) → build (project). Tick days off in the Plan tab of Prep Prep.</p>
+<h3>Week 1 — Foundations</h3>
+<div class="day"><b>Day 1</b><span>Module 1. Set up Python, VS Code, a GitHub repo; publish Prep Prep on GitHub Pages. Make your first API call. Coding 5.</span></div>
+<div class="day"><b>Day 2</b><span>Module 2. MCQs for module 2; write the overfitting and precision/recall answers.</span></div>
+<div class="day"><b>Day 3</b><span>Module 3. Coding 1 (cosine) and Coding 2 (chunker). Try a tokenizer playground.</span></div>
+<div class="day"><b>Day 4</b><span>Module 4. Coding 3 (attention in NumPy). Explain attention out loud in 2 minutes.</span></div>
+<div class="day"><b>Day 5</b><span>Modules 5–6. Coding 4 (sampling). Start Project 5 reading (LLMs-from-scratch, chapters 2–3).</span></div>
+<div class="day"><b>Day 6</b><span>Module 7. Coding 6 (structured output). Rewrite 3 prompts with the six-part frame.</span></div>
+<div class="day"><b>Day 7</b><span>Revision: 40 mixed MCQs, 5 written answers with the checker, fix everything in Mistakes.</span></div>
+<h3>Week 2 — Retrieval and RAG</h3>
+<div class="day"><b>Day 8</b><span>Module 8. Install Chroma or pgvector, embed 20 documents, query them.</span></div>
+<div class="day"><b>Day 9</b><span>Module 9 (first half). Coding 7 (mini RAG). Start Project 1: ingestion + chunking.</span></div>
+<div class="day"><b>Day 10</b><span>Project 1: retrieval + answer with citations + Streamlit UI.</span></div>
+<div class="day"><b>Day 11</b><span>Module 9 (second half). Add hybrid search (BM25 + vectors) and a reranker to Project 1.</span></div>
+<div class="day"><b>Day 12</b><span>Coding 11 (FastAPI) and 12 (semantic cache). Wrap Project 1 in an API.</span></div>
+<div class="day"><b>Day 13</b><span>Module 12. Coding 10 (eval harness). Build a 30-question golden set for Project 1 and score it.</span></div>
+<div class="day"><b>Day 14</b><span>Revision + mock: RAG debugging answer, chunk-size answer, all module 8–9 MCQs.</span></div>
+<h3>Week 3 — Agents, fine-tuning, evaluation</h3>
+<div class="day"><b>Day 15</b><span>Module 10. Coding 8 (agent loop). Read the tool-use section of the cookbook.</span></div>
+<div class="day"><b>Day 16</b><span>Project 2: a tool-calling agent with 2–3 real tools and a step limit.</span></div>
+<div class="day"><b>Day 17</b><span>Coding 13 (MCP server). Connect it to an MCP client and demo it.</span></div>
+<div class="day"><b>Day 18</b><span>Module 11. Open an Unsloth Colab notebook and run it end to end.</span></div>
+<div class="day"><b>Day 19</b><span>Project 3: QLoRA fine-tune on your own small dataset; compare with the base model.</span></div>
+<div class="day"><b>Day 20</b><span>Project 4: eval report for Projects 1–3 (LLM-as-judge + metrics table in the README).</span></div>
+<div class="day"><b>Day 21</b><span>Revision + mock: 10 written answers, 3 coding problems without hints.</span></div>
+<h3>Week 4 — Production, safety, interviews</h3>
+<div class="day"><b>Day 22</b><span>Module 13. Add logging, retries, cost tracking and streaming to Project 1. Coding 9.</span></div>
+<div class="day"><b>Day 23</b><span>Module 14. Red-team Project 1 with 10 injection attempts; add guardrails; document results.</span></div>
+<div class="day"><b>Day 24</b><span>Module 15. Run one image or speech model (Whisper or Stable Diffusion) in Colab.</span></div>
+<div class="day"><b>Day 25</b><span>Module 16. Practise 2 system designs out loud (claims chatbot, internal document Q&amp;A), 25 minutes each.</span></div>
+<div class="day"><b>Day 26</b><span>Deploy Project 1 publicly (Hugging Face Spaces or Streamlit Community Cloud). Record a 2-minute demo.</span></div>
+<div class="day"><b>Day 27</b><span>Portfolio: READMEs with architecture diagram, metrics and demo link; resume bullets; LinkedIn post.</span></div>
+<div class="day"><b>Day 28</b><span>Full mock interview: 30 MCQs, 8 written, 3 coding, 1 design — timed.</span></div>
+<div class="day"><b>Day 29</b><span>Work only on the Mistakes tab and weak modules.</span></div>
+<div class="day"><b>Day 30</b><span>Read this printed sheet once, rehearse your project story, and apply.</span></div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section class="mod" id="projects">
+<h2><span class="n">C</span>Portfolio projects</h2>
+<p class="plain">Five projects, built in this order. Each repository link is a reference to learn from — recreate it in your own repo, in your own words, with your own data and an evaluation table. That is what makes it portfolio-worthy.</p>
+<div class="tbl"><table>
+<tr><th>Project</th><th>What it proves</th><th>Learn from</th></tr>
+<tr><td><b>1. Policy Q&amp;A with citations (RAG)</b><br>Upload public PDFs (e.g. public health-insurance policy documents) → ask questions → cited answers.</td><td>Chunking, embeddings, hybrid search, reranking, grounding, Streamlit/FastAPI, deployment</td><td>github.com/langchain-ai/rag-from-scratch<br>github.com/Shubhamsaboo/awesome-llm-apps (rag_tutorials, chat_with_X_tutorials)</td></tr>
+<tr><td><b>2. Tool-using agent + MCP server</b><br>e.g. a job-hunt agent: reads saved job posts, scores fit against your resume, drafts a cover note, asks before sending.</td><td>Tool calling, agent loop, memory, step limits, human approval, MCP</td><td>github.com/modelcontextprotocol/python-sdk<br>github.com/langchain-ai/langgraph<br>github.com/anthropics/claude-cookbooks</td></tr>
+<tr><td><b>3. QLoRA fine-tune</b><br>Fine-tune a small open model to extract fields from messy text into JSON (or classify support tickets). Compare with the base model.</td><td>Data prep, LoRA/QLoRA, evaluation vs baseline, Hugging Face Hub</td><td>github.com/unslothai/unsloth (free Colab notebooks)<br>github.com/huggingface/peft</td></tr>
+<tr><td><b>4. Evaluation dashboard</b><br>Golden set + code checks + LLM-as-judge over Projects 1–3; results table and charts.</td><td>The skill most candidates lack: measuring quality</td><td>github.com/openai/openai-cookbook (evals examples)<br>RAGAS / promptfoo documentation</td></tr>
+<tr><td><b>5. GPT from scratch</b> (understanding)<br>Train a tiny GPT on Thirukkural or Tamil film dialogue text.</td><td>Deep understanding of tokens, attention, training loop — wins “explain it” rounds</td><td>github.com/rasbt/LLMs-from-scratch<br>github.com/karpathy/nanoGPT</td></tr>
+</table></div>
+<p><b>Courses to lean on (free):</b> github.com/microsoft/generative-ai-for-beginners and github.com/mlabonne/llm-course.</p>
+<p><b>Every project README needs:</b> one-line problem, demo GIF or link, architecture diagram, stack, how to run, an <mark>evaluation table with numbers</mark>, known limitations, and what you’d do next.</p>
+<p><b>Use only public or your own data</b> — never employer or client data.</p>
+</section>
+
+<footer>Prepared for Harsha Varthan E P · Think Different Be Different · Pair with Prep Prep (index.html) for practice.</footer>
+</div>
+</body>
+</html>
